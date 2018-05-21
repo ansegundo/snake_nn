@@ -20,6 +20,12 @@ var drawInit = ( function() {
         context.fillText(score_text, 145, hei-5);
     }
 
+    var epochText = function () {
+        var epoch_text = "Epoch: " + epoch;
+        context.fillStyle = 'blue';
+        context.fillText(epoch_text, 245, hei-5);
+    }
+
     var drawSnake = function() {
         var length = 4;
         snake = [];
@@ -84,7 +90,9 @@ var drawInit = ( function() {
 
         pizza(food.x, food.y);
 
-        scoreText()
+        scoreText();
+        epochText();
+        epoch++;
     }
 
     var createFood = function() {
