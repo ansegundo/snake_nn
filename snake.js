@@ -67,9 +67,8 @@ var drawInit = ( function() {
         var a = snakeX - food.x;
         var b = snakeY - food.y;
         var c = Math.sqrt( a*a + b*b );
-        console.log(c)
+        return c;
     }
-
 
     var paint = function() {
 
@@ -108,6 +107,14 @@ var drawInit = ( function() {
 
             context.clearRect(0, 0, wid, hei);
             gameloop = clearInterval(gameloop);
+
+            if (window.navigator.msSaveOrOpenBlob) {
+                var blob = new Blob([decodeURIComponent(encodeURI(data_json))], {
+                  type: "text/csv;charset=utf-8;"
+                });
+                navigator.msSaveBlob(blob, 'FileName.csv');
+              }
+
             return;
         }
 
@@ -134,8 +141,10 @@ var drawInit = ( function() {
         pizza(food.x, food.y);
         scoreText();
         epochText();
-        distance(food, snakeX, snakeY);
         epoch++;
+
+        data_json.push([snakeX, snakeY, food.x, food.y, distance(food, snakeX, snakeY), score, direction])
+        // console.log(data_json)
 
         /*
         test = Math.floor(Math.random() * 4) + 1;
@@ -145,7 +154,7 @@ var drawInit = ( function() {
         }
         */
     }
-
+    
     var init = function(){
         direction = 'right';
         drawSnake();

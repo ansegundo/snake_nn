@@ -3,7 +3,7 @@
     btn.addEventListener("click", function(){ drawInit.init();});
 
     document.onkeydown = function (event) {
-        keyCode = window.event.keyCode; 
+        //keyCode = window.event.keyCode; 
         keyCode = event.keyCode;
     
         switch (keyCode) {

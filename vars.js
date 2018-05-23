@@ -7,3 +7,4 @@ var hei = 400;
 var score = 0;
 var epoch = 0;
 var fruit;
+var data_json = [];
