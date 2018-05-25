@@ -8,3 +8,5 @@ var score = 0;
 var epoch = 0;
 var fruit;
 var data_json = [];
+const DIRECTIONS_CLASSES = ["right", "left", "down", "up"];
+const PREDICTION = ["right"];

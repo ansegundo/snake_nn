@@ -76,7 +76,20 @@ var drawInit = (function() {
     return c;
   };
 
-  var paint = function() {
+  async function automaticPlay(input) {
+    const model = await tf.loadModel('http://localhost:8000/modelos/modelo_01.json');
+
+    tf.tidy(() => {
+      const input2 = tf.tensor2d(input, [1, 6]);
+      const predictOut = model.predict(input2);
+      const logits = Array.from(predictOut.dataSync());
+      const winner = DIRECTIONS_CLASSES[predictOut.argMax(-1).dataSync()[0]];
+      PREDICTION[0] = winner;
+      console.log(PREDICTION);
+    });
+  }
+
+  var paint = async function() {
     // coloring the board
     context.fillStyle = "white";
     context.fillRect(0, 0, wid, hei);
@@ -116,7 +129,8 @@ var drawInit = (function() {
       context.clearRect(0, 0, wid, hei);
       gameloop = clearInterval(gameloop);
 
-      console.log(data_json);
+      //console.log(data_json);
+      console.log('colisão');
       score = 0;
       epoch = 0;
       return;
@@ -146,6 +160,13 @@ var drawInit = (function() {
     epochText();
     epoch++;
 
+    dist = distance(food, snakeX, snakeY)
+    var input = [snakeX,  snakeY,food.x,food.y, dist ,score];
+    automaticPlay(input);
+    direction = PREDICTION[0];
+    console.log(direction);
+
+    /** descomentar para pegar dados
     data_json.push([
       snakeX,
       snakeY,
@@ -155,13 +176,15 @@ var drawInit = (function() {
       score,
       ndirection
     ]);
+    */
+
   };
 
   var init = function() {
     direction = "right";
     drawSnake();
     createFood();
-    gameloop = setInterval(paint, 100);
+    gameloop = setInterval(paint, 2000);
   };
 
   return {
