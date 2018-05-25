@@ -1966,7 +1966,7 @@ let model;
 async function trainModel(xTrain, yTrain, xTest, yTest){
     console.log('Training model... Please wait.');
 
-    const params = {epochs: 10, learningRate: 0.05}
+    const params = {epochs: 40, learningRate: 0.01}
     const model = tf.sequential();
     model.add(tf.layers.dense({units:10, activation: 'sigmoid', inputShape: [xTrain.shape[1]]}));
     model.add(tf.layers.dense({units: 4, activation: 'softmax'}));
@@ -1985,9 +1985,9 @@ async function trainModel(xTrain, yTrain, xTest, yTest){
         validationData: [xTest, yTest],
         callbacks: {
             onEpochEnd: async (epoch, logs) => {
-                //ui.plotLosses(lossValues, epoch, logs.loss, logs.val_loss);
-                //ui.plotAccuracies(accuracyValues, epoch, logs.acc, logs.val_acc);
-                console.log(epoch);
+                console.log("loss:" + lossValues + ", epoch:" + epoch +", logs.loss:" + logs.loss +", logs.val_loss:" + logs.val_loss);
+                console.log("accuracy:" + accuracyValues + ", epoch:" + epoch + ", logs.acc:" + logs.acc + ", logs.val_acc:" + logs.val_acc);
+                
                 await tf.nextFrame();
             },
         }
@@ -2020,7 +2020,15 @@ async function snake() {
     const [xTrain, yTrain, xTest, yTest] = getSnakeData(0.15);
 
     model = await trainModel(xTrain, yTrain, xTest, yTest);
-    const saveResult = await model.save('downloads://my-model-1');
+    const saveResult = model.save('downloads://modelo_01');
+    console.log('finished')
+
+    
+    const input = tf.tensor2d([3, 0, 25, 4, 22.360679774997898, 0], [1, 6]);
+    const predictOut = model.predict(input);
+    const logits = Array.from(predictOut.dataSync());
+    const winner = DIRECTIONS_CLASSES[predictOut.argMax(-1).dataSync()[0]];
+    console.log(logits, winner)
 
 }
 

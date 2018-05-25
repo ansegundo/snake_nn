@@ -23,13 +23,13 @@ var drawInit = (function() {
   var scoreText = function() {
     var score_text = "Score: " + score;
     context.fillStyle = "red";
-    context.fillText(score_text, 145, hei - 5);
+    context.fillText(score_text, 50, hei - 5);
   };
 
   var epochText = function() {
     var epoch_text = "Epoch: " + epoch;
     context.fillStyle = "red";
-    context.fillText(epoch_text, 245, hei - 5);
+    context.fillText(epoch_text, 100, hei - 5);
   };
 
   //setting up snake parts
@@ -43,8 +43,8 @@ var drawInit = (function() {
 
   var createFood = function() {
     food = {
-      x: Math.floor(Math.random() * 30 + 1),
-      y: Math.floor(Math.random() * 30 + 1)
+      x: Math.floor(Math.random() * 19 + 1),
+      y: Math.floor(Math.random() * 19 + 1)
     };
 
     for (var i = 0; i > snake.length; i++) {
@@ -56,8 +56,8 @@ var drawInit = (function() {
         food.y === snakeY ||
         (food.y === snakeY && food.x === snakeX)
       ) {
-        food.x = Math.floor(Math.random() * 30 + 1);
-        food.y = Math.floor(Math.random() * 30 + 1);
+        food.x = Math.floor(Math.random() * 19 + 1);
+        food.y = Math.floor(Math.random() * 19 + 1);
       }
     }
   };
@@ -117,7 +117,8 @@ var drawInit = (function() {
       gameloop = clearInterval(gameloop);
 
       console.log(data_json);
-
+      score = 0;
+      epoch = 0;
       return;
     }
 
