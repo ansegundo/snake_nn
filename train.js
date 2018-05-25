@@ -1894,9 +1894,9 @@ const DIRECTIONS_DATA = [
 
 function convertToTensors(data, targets, testSplit) {
   /**
-   * @param data data without targets
+   * @param data array with data from the snake game. Head and Food position, Score and Distance
    * @param targets directions to predict - right, left, up, down
-   * @param testSplit split %
+   * @param testSplit % to split the dataset into Train/Test sets
    */
 
   const numExamples = data.length;
