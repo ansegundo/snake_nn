@@ -1966,7 +1966,7 @@ let model;
 async function trainModel(xTrain, yTrain, xTest, yTest){
     console.log('Training model... Please wait.');
 
-    const params = {epochs: 40, learningRate: 0.01}
+    const params = {epochs: 200, learningRate: 0.01}
     const model = tf.sequential();
     model.add(tf.layers.dense({units:10, activation: 'sigmoid', inputShape: [xTrain.shape[1]]}));
     model.add(tf.layers.dense({units: 4, activation: 'softmax'}));
@@ -1985,14 +1985,31 @@ async function trainModel(xTrain, yTrain, xTest, yTest){
         validationData: [xTest, yTest],
         callbacks: {
             onEpochEnd: async (epoch, logs) => {
-                console.log("loss:" + lossValues + ", epoch:" + epoch +", logs.loss:" + logs.loss +", logs.val_loss:" + logs.val_loss);
-                console.log("accuracy:" + accuracyValues + ", epoch:" + epoch + ", logs.acc:" + logs.acc + ", logs.val_acc:" + logs.val_acc);
-                
+                //console.log("loss:" + lossValues + ", epoch:" + epoch +", logs.loss:" + logs.loss +", logs.val_loss:" + logs.val_loss);
+                //console.log("accuracy:" + accuracyValues + ", epoch:" + epoch + ", logs.acc:" + logs.acc + ", logs.val_acc:" + logs.val_acc);
+                console.log(epoch);
+                lossValues.push([logs.loss, logs.val_loss]);
+                accuracyValues.push([logs.acc, logs.val_acc]);
                 await tf.nextFrame();
             },
         }
     });
 
+    var str = '';
+    for (const example of lossValues) {
+        str += '[' + example + '],';
+        //console.log(example);
+    }
+    console.log(str);
+    
+    str = '';
+    for (const example of accuracyValues) {
+        str += '[' + example + '],';
+        //console.log(example);
+    }
+    console.log(str);
+    //console.log(lossValues);
+    //console.log(accuracyValues);
     console.log('Model training complete');
     return model;
 }   
@@ -2021,14 +2038,7 @@ async function snake() {
 
     model = await trainModel(xTrain, yTrain, xTest, yTest);
     const saveResult = model.save('downloads://modelo_01');
-    console.log('finished')
-
-    
-    const input = tf.tensor2d([3, 0, 25, 4, 22.360679774997898, 0], [1, 6]);
-    const predictOut = model.predict(input);
-    const logits = Array.from(predictOut.dataSync());
-    const winner = DIRECTIONS_CLASSES[predictOut.argMax(-1).dataSync()[0]];
-    console.log(logits, winner)
+    console.log('finished');
 
 }
 

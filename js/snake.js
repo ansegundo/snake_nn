@@ -27,7 +27,7 @@ var drawInit = (function() {
   };
 
   var epochText = function() {
-    var epoch_text = "Epoch: " + epoch;
+    var epoch_text = "Step: " + epoch;
     context.fillStyle = "red";
     context.fillText(epoch_text, 100, hei - 5);
   };
