@@ -10,8 +10,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.1"> </script>
   <script>
       async function loadingModel() {
-        const model = await tf.loadModel('http://localhost:8000/modelos/modelo_01.json');
-
+        const model = await tf.loadModel('http://localhost:8000/modelos/modelo_analise_200epoch_8krows.json');
+        console.log('loadmodel1')
         
       }
   </script>
@@ -27,7 +27,7 @@
   </div>
 
   <script src="js/vars.js"> </script>
-  <script src="js/snake.js"> </script>
+  <script src="js/snake.js"> console.log('snakejs') </script>
   <script src="js/controls.js"> </script>
 
 </body>

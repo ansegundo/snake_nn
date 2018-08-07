@@ -43,3 +43,5 @@ df_loss['loss_test'].plot(figsize=(15, 15))
 #%%
 df_accuracy['acc_train'].plot(figsize=(15, 15))
 df_accuracy['acc_test'].plot(figsize=(15, 15))
+
+predictions = 

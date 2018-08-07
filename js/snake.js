@@ -77,7 +77,8 @@ var drawInit = (function() {
   };
 
   async function automaticPlay(input) {
-    const model = await tf.loadModel('http://localhost:8000/modelos/modelo_01.json');
+    const model = await tf.loadModel('http://localhost:8000/modelos/modelo_analise_200epoch_8krows.json');
+    console.log('loadmodel2')
 
     tf.tidy(() => {
       const input2 = tf.tensor2d(input, [1, 6]);
@@ -181,10 +182,10 @@ var drawInit = (function() {
   };
 
   var init = function() {
-    direction = "right";
+    direction = "down";
     drawSnake();
     createFood();
-    gameloop = setInterval(paint, 2000);
+    gameloop = setInterval(paint, 1000);
   };
 
   return {
